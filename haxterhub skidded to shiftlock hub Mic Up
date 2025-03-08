@@ -1,0 +1,1185 @@
+--Shiftlock Hub UI Lib
+local vermLib = {}
+
+function vermLib:CreateWindow(name)
+	name = name or "Shiftlock Hub V6"
+	local Hub = Instance.new("ScreenGui")
+	local Window = Instance.new("Frame")
+	local Container = Instance.new("Frame")
+	local Tabs = Instance.new("Folder")
+	local MenuFrame = Instance.new("ScrollingFrame")
+	local MenuFrameTwo = Instance.new("Frame")
+	local UIListLayout_2 = Instance.new("UIListLayout")
+	local SettingsFrame = Instance.new("ScrollingFrame")
+	local ImageDecor = Instance.new("ImageLabel")
+	local UIListLayout_3 = Instance.new("UIListLayout")
+	local ButtonFrame_2 = Instance.new("Frame")
+	local Button_3 = Instance.new("TextButton")
+	local Button_4 = Instance.new("TextButton")
+	local UICorner_5 = Instance.new("UICorner")
+	local UICorner_6 = Instance.new("UICorner")
+	local ButtonIcon_3 = Instance.new("ImageLabel")
+	local Title = Instance.new("TextLabel")
+	local Menu = Instance.new("Frame")
+	local ScrollingFrame = Instance.new("ScrollingFrame")
+	local Home = Instance.new("TextButton")
+	local TabIcon = Instance.new("ImageLabel")
+	local Settings = Instance.new("ImageButton")
+    local MenuF_O = Instance.new("TextButton")
+    local MenuF_C = Instance.new("TextButton")
+    local Main = Instance.new("Frame")
+    local usernameLabel = Instance.new("TextLabel")
+    local ExecutorName = Instance.new("TextLabel")
+    local profilePicture = Instance.new("ImageLabel")
+    local GameName = Instance.new("TextLabel")
+	local MainScrollingFrame = Instance.new("ScrollingFrame")
+	local GameImage_1 = Instance.new("ImageButton")
+	local GameImage_2 = Instance.new("ImageButton")
+	local GameImage_3 = Instance.new("ImageButton")
+	local GameImage_4 = Instance.new("ImageButton")
+	local GameImage_5 = Instance.new("ImageButton")
+	local GameImage_6 = Instance.new("ImageButton")
+    local OpenClose = Instance.new("ImageButton")
+    local UICornerOC = Instance.new("UICorner")
+    local function getExecutor()
+        local name
+        if identifyexecutor then
+            name = identifyexecutor()
+        end
+        return { Name = name or "Unknown Executor"}
+    end
+    local function detectExecutor()
+        local executorDetails = getExecutor()
+        return string.format("%s", executorDetails.Name)
+    end
+    local executor_Name = detectExecutor()
+
+
+	Hub.Name = name
+	Hub.Parent = game.CoreGui
+	Hub.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+    OpenClose.Name = "OpenClose"
+    OpenClose.Parent = Hub
+    OpenClose.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    OpenClose.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    OpenClose.BorderSizePixel = 0
+    OpenClose.Position = UDim2.new(0, 0, 0.5, 0)
+    OpenClose.Size = UDim2.new(0, 45, 0, 45)
+    OpenClose.Image = "rbxassetid://105386774491726"
+    OpenClose.ImageColor3 = Color3.fromRGB(255, 255, 255)
+
+    UICornerOC.CornerRadius = UDim.new(1, 0)
+    UICornerOC.Parent = OpenClose
+    
+	Window.Name = "Window"
+	Window.Parent = Hub
+	Window.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Window.BorderSizePixel = 0
+	Window.Position = UDim2.new(0.33395347, 0, 0.30018419, 0)
+	Window.Size = UDim2.new(0, 500, 0, 23)
+    OpenClose.MouseButton1Click:Connect(function()
+        Window.Visible = not Window.Visible
+    end)
+
+    local UserInputService = game:GetService("UserInputService")
+
+    local lastPressTime = 0
+    local pressCount = 0
+    local debounceTime = 0.3
+    local isEnabled = false
+
+    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if gameProcessedEvent then return end -- Ignore if the game is processing this input
+    
+        if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.C then
+            local currentTime = tick()
+            
+            if currentTime - lastPressTime <= debounceTime then
+                pressCount = pressCount + 1
+            else
+                pressCount = 1 -- Reset count if the time exceeds debounce time
+            end
+            
+            lastPressTime = currentTime
+            
+            if pressCount == 2 then
+                isEnabled = not isEnabled -- Toggle the enabled state
+                if isEnabled then
+        Window.Visible = not Window.Visible
+                else
+        Window.Visible = not Window.Visible
+                end
+                pressCount = 0 -- Reset count after action
+            end
+        end
+    end)
+        
+
+	Container.Name = "Container"
+	Container.Parent = Window
+	Container.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Container.BorderSizePixel = 0
+	Container.ClipsDescendants = true
+	Container.Position = UDim2.new(0, 0, 2.5, 0)
+	Container.Size = UDim2.new(0, 500, 0, 340)
+
+    local Main = Instance.new("Frame")
+    Main.Name = "Main"
+	Main.Parent = Container
+	Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Main.Visible = true
+	Main.Position = UDim2.new(0.024, 0, 0.024, 0)
+	Main.Size = UDim2.new(0, 475, 0, 325)
+	Main.BorderSizePixel = 0
+
+	local players = game:FindFirstChild("Players - Client") or game:GetService("Players") -- Detects the correct service dynamically
+	local player = players.LocalPlayer
+
+    usernameLabel.Text = "Welcome To Shiftlock Hub: " .. player.DisplayName
+    usernameLabel.Position = UDim2.new(0.474999994, 0, 0.115, 0)
+    usernameLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+    usernameLabel.Parent = MainScrollingFrame
+    usernameLabel.TextSize = "14"
+    usernameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	usernameLabel.Name = "usernameLabel"
+
+    ExecutorName.Text = "Executor: " .. executor_Name
+    ExecutorName.Position = UDim2.new(0.474999994, 0, 0.18, 0)
+    ExecutorName.AnchorPoint = Vector2.new(0.5, 0.5)
+    ExecutorName.Parent = MainScrollingFrame
+    ExecutorName.TextSize = "14"
+    ExecutorName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ExecutorName.Name = "ExecutorName"
+
+
+	Tabs.Name = "Tabs"
+	Tabs.Parent = Container
+
+	MenuFrame.Name = "MenuFrame"
+	MenuFrame.Parent = Window
+	MenuFrame.Active = true
+	MenuFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	MenuFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	MenuFrame.Position = UDim2.new(-0.251999974, 0, 0.0439999998, 0)
+	MenuFrame.Size = UDim2.new(0, 125, 0, 394)
+	MenuFrame.ScrollBarThickness = 9
+	MenuFrame.Visible = true
+	MenuFrame.CanvasSize = UDim2.new(0, 0, 9, 0)
+
+	MenuFrameTwo.Name = "MenuFrameTwo"
+	MenuFrameTwo.Parent = MenuFrame
+	MenuFrameTwo.Active = true
+	MenuFrameTwo.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	MenuFrameTwo.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	MenuFrameTwo.Position = UDim2.new(0.023, 0, 0.007, 0)
+	MenuFrameTwo.Size = UDim2.new(0, 119, 0, 390)
+	MenuFrameTwo.Visible = true
+
+    profilePicture.Name = "PlayerPicture"
+    profilePicture.Size = UDim2.new(0, 111, 0, 108)
+    profilePicture.Position = UDim2.new(0, 0, 0.726, 0)
+    profilePicture.BackgroundTransparency = 1
+    profilePicture.Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=120&userId=" .. player.CharacterAppearanceId
+	profilePicture.ImageColor3 = Color3.fromRGB(93, 10, 105)
+    profilePicture.Parent = MenuFrame
+
+	local Line = Instance.new("Frame")
+	Line.Name = "Line"
+	Line.Parent = Container
+	Line.BackgroundColor3 = Color3.fromRGB(108, 33, 128)
+	Line.BorderColor3 = Color3.fromRGB(108, 33, 128)
+	Line.BorderSizePixel = 0
+	Line.Position = UDim2.new(-0.00450349599, 0, 0, 0)
+	Line.Size = UDim2.new(0.0117207849, 0, 0.0117207849, 0)
+	
+	local TweenService = game:GetService("TweenService")
+	local f = Container -- Reference to the parent frame
+	local anim = f.Line -- Ensure this references the Line frame correctly
+	
+	
+	
+	-- Tween the Line frame
+	coroutine.wrap(function()
+	while true do
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(1,0,0.01,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(0.01,0,0.01,0)}):Play()
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Position = UDim2.new(0.99,0,0,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(0.01,0,1,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Position = UDim2.new(0.99,0,0.987,0)}):Play()
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(0.011,0,0.013,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(1,0,0.013,0)}):Play()
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Position = UDim2.new(0,0,0.987,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(0.012,0,0.012,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(0.012,0,1,0)}):Play()
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Position = UDim2.new(0,0,0,0)}):Play()
+		wait(.5)
+		game:GetService("TweenService"):Create(anim, TweenInfo.new(.4), {Size = UDim2.new(0.012,0,0.012,0)}):Play()
+		wait(.5)
+		end
+	end)()
+	
+	UIListLayout_2.Parent = MenuFrameTwo
+	UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+
+    MenuF_C.Name = "MenuF_C"
+	MenuF_C.Parent = Window
+	MenuF_C.Active = true
+	MenuF_C.Position = UDim2.new(0, 0, 0, 0)
+    MenuF_C.TextColor3 = Color3.fromRGB(111, 34, 137)
+	MenuF_C.Size = UDim2.new(0, 27, 0, 21)
+	MenuF_C.Visible = true
+    MenuF_C.Text = "o"
+    MenuF_C.BackgroundTransparency = 1
+    MenuF_C.TextSize = 20
+	MenuF_C.MouseButton1Click:Connect(function()
+	MenuF_O.Visible = true
+	MenuF_C.Visible = false
+	MenuFrame.Visible = false
+    end)
+
+    MenuF_O.Name = "MenuF_O"
+	MenuF_O.Parent = Window
+	MenuF_O.Active = false
+	MenuF_O.Position = UDim2.new(0, 0, 0, 0)
+    MenuF_O.TextColor3 = Color3.fromRGB(208, 64, 255)
+	MenuF_O.Size = UDim2.new(0, 27, 0, 21)
+	MenuF_O.Visible = false
+    MenuF_O.Text = "o"
+    MenuF_O.BackgroundTransparency = 1
+    MenuF_O.TextSize = 20
+	MenuF_O.MouseButton1Click:Connect(function()
+    MenuF_O.Visible = false
+	MenuF_C.Visible = true
+	MenuFrame.Visible = true
+	end)
+
+    GameName.Name = "GameNameLabel"
+    GameName.Text =  "Game: " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+    GameName.TextColor3 = Color3.new(1, 1, 1)
+    GameName.BackgroundTransparency = 1
+    GameName.Size = UDim2.new(0, 200, 0, 50)
+    GameName.Position = UDim2.new(0.474999994, 0, 0.04, 0)
+	GameName.AnchorPoint = Vector2.new(0.5, 0.5)
+    GameName.Font = Enum.Font.SourceSansBold
+    GameName.TextSize = 24
+    GameName.Parent = MainScrollingFrame
+
+	SettingsFrame.Name = "SettingsFrame"
+	SettingsFrame.Parent = Container
+	SettingsFrame.Active = true
+	SettingsFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	SettingsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	SettingsFrame.Position = UDim2.new(0.023746701, 0, 0.0237154141, 0)
+	SettingsFrame.Size = UDim2.new(0, 475, 0, 325)
+	SettingsFrame.ScrollBarThickness = 9
+	SettingsFrame.Visible = false
+	SettingsFrame.CanvasSize = UDim2.new(0, 0, 9, 0)
+
+	ButtonFrame_2.Name = "ButtonFrame"
+	ButtonFrame_2.Parent = SettingsFrame
+	ButtonFrame_2.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+	ButtonFrame_2.BackgroundTransparency = 1.000
+	ButtonFrame_2.Size = UDim2.new(1, 0, 0, 49)
+	
+	UIListLayout_3.Parent = ButtonFrame_2
+	UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
+	UIListLayout_3.Padding = UDim.new(0, 15) 
+
+	Button_3.Name = "Button"
+	Button_3.Parent = ButtonFrame_2
+	Button_3.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+	Button_3.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+	Button_3.Size = UDim2.new(0, 435, 0, 27)
+	Button_3.Font = Enum.Font.GothamSemibold
+	Button_3.Text = "Close Shiftlock Hub"
+	Button_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Button_3.TextSize = 14.000
+	Button_3.MouseButton1Click:Connect(function()
+		Hub:Destroy()
+	end)
+	UICorner_5.Parent = Button_3
+
+	Button_4.Name = "Button"
+	Button_4.Parent = ButtonFrame_2
+	Button_4.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+	Button_4.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+	Button_4.Size = UDim2.new(0, 435, 0, 27)
+	Button_4.Font = Enum.Font.GothamSemibold
+	Button_4.Text = "My Discord Server"
+	Button_4.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Button_4.TextSize = 14.000
+	Button_4.MouseButton1Click:Connect(function()
+		setclipboard("https://discord.gg/EUQHe9Xu")
+	end)
+
+	UICorner_6.Parent = Button_4
+
+	Title.Name = "Title"
+	Title.Parent = Window
+	Title.BackgroundColor3 = Color3.fromRGB(9, 137, 207)
+	Title.BackgroundTransparency = 1.000
+	Title.Size = UDim2.new(0, 500, 0, 23)
+	Title.Font = Enum.Font.GothamBlack
+	Title.Text = name
+	Title.TextColor3 = Color3.fromRGB(134, 8, 207)
+	Title.TextScaled = true
+	Title.TextSize = 14.000
+	Title.TextWrapped = true
+
+	Menu.Name = "Menu"
+	Menu.Parent = Window
+	Menu.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Menu.BorderSizePixel = 0
+	Menu.Position = UDim2.new(0, 0, 1, 0)
+	Menu.Size = UDim2.new(0, 500, 0, 34)
+	Menu.ZIndex = 2
+
+	ScrollingFrame.Parent = Menu
+	ScrollingFrame.Active = true
+	ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ScrollingFrame.BackgroundTransparency = 1.000
+	ScrollingFrame.BorderColor3 = Color3.fromRGB(27, 42, 53)
+	ScrollingFrame.Size = UDim2.new(0, 500, 0, 34)
+	ScrollingFrame.CanvasSize = UDim2.new(0, 4, 0, 0)
+	ScrollingFrame.HorizontalScrollBarInset = Enum.ScrollBarInset.ScrollBar
+
+
+    MainScrollingFrame.Name = "MainScrollingFrame"
+    MainScrollingFrame.Size = UDim2.new(0, 475, 0, 325)
+    MainScrollingFrame.Parent = Main
+    MainScrollingFrame.BackgroundTransparency = 1
+
+
+	Home.Name = "Home"
+	Home.Parent = ScrollingFrame
+	Home.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+	Home.BackgroundTransparency = 1.000
+	Home.Position = UDim2.new(0.0448548831, 0, 0.235294119, 0)
+	Home.Size = UDim2.new(0, 69, 0, 17)
+	Home.Font = Enum.Font.SourceSans
+	Home.Text = "Home"
+	Home.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Home.TextSize = 14.000
+	Home.TextXAlignment = Enum.TextXAlignment.Right
+	Home.MouseButton1Click:Connect(function()
+		Main.Visible = true
+		SettingsFrame.Visible = false
+		for i,v in pairs(Tabs:GetChildren()) do
+			v.Visible = false
+		end
+	end)
+
+	TabIcon.Name = "TabIcon"
+	TabIcon.Parent = Home
+	TabIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	TabIcon.BackgroundTransparency = 1.000
+	TabIcon.Position = UDim2.new(0.219999894, 0, -0.176470593, 3)
+	TabIcon.Size = UDim2.new(0, 20, 0, 17)
+	TabIcon.Image = "http://www.roblox.com/asset/?id=8491921069"
+
+	Settings.Name = "Settings"
+	Settings.Parent = ScrollingFrame
+	Settings.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Settings.BackgroundTransparency = 1.000
+	Settings.Position = UDim2.new(0.91292876, 0, 0.235294119, 0)
+	Settings.Size = UDim2.new(0, 18, 0, 17)
+	Settings.Image = "http://www.roblox.com/asset/?id=8491920039"
+	Settings.MouseButton1Click:Connect(function()
+		SettingsFrame.Visible = true
+        Main.Visible = false
+		for i,v in pairs(Tabs:GetChildren()) do
+			v.Visible = false
+		end
+	end)
+
+	print("made by HaxterFelix")
+
+	-- DRAG GUI --
+
+	local UserInputService = game:GetService("UserInputService")
+
+	local gui = Window
+
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+
+	local function update(input)
+		local delta = input.Position - dragStart
+		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+
+	UserInputService.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+
+	local vermlibb = {}
+
+	function vermlibb:CreateTab(nameTab, nameThread, author)
+		nameTab = nameTab or "Thread"
+		nameThread = nameThread or "Thread"
+		author = author or Title.Text
+
+		local Tab = Instance.new("ScrollingFrame")
+		local UIListLayout = Instance.new("UIListLayout")
+		local TabSelectionFrame = Instance.new("Frame")
+		local TabName = Instance.new("TextLabel")
+		local HubName = Instance.new("TextLabel")
+		local SelectTab = Instance.new("TextButton")
+
+		Tab.Name = nameTab
+		Tab.Parent = Tabs
+		Tab.Active = true
+		Tab.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+		Tab.BorderColor3 = Color3.fromRGB(74, 74, 74)
+		Tab.Position = UDim2.new(0.00507467007, 0, 0.011715414, 0)
+		Tab.Size = UDim2.new(0, 475, 0, 325)
+		Tab.ScrollBarThickness = 9
+		Tab.BorderSizePixel = 0
+		Tab.Visible = false
+        Tab.CanvasSize = UDim2.new(0, 0, 9, 0)
+		Tab.BackgroundTransparency = 0.9
+
+		UIListLayout.Parent = Tab
+		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+		TabSelectionFrame.Name = "TabSelectionFrame"
+		TabSelectionFrame.Parent = MenuFrameTwo
+		TabSelectionFrame.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+		TabSelectionFrame.BackgroundTransparency = 1.000
+		TabSelectionFrame.Size = UDim2.new(1, 0, 0, 24)
+
+		TabName.Name = name
+		TabName.Parent = TabSelectionFrame
+		TabName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TabName.BackgroundTransparency = 1.000
+		TabName.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+		TabName.Size = UDim2.new(0, 339, 0, 18)
+		TabName.Font = Enum.Font.SourceSans
+		TabName.Text = nameThread
+		TabName.TextColor3 = Color3.fromRGB(134, 8, 207)
+		TabName.TextSize = 20.000
+		TabName.TextXAlignment = Enum.TextXAlignment.Left
+
+		HubName.Name = author
+		HubName.Parent = TabSelectionFrame
+		HubName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		HubName.BackgroundTransparency = 1.000
+		HubName.Position = UDim2.new(0.035911601, 0, 0.612244904, 0)
+		HubName.Size = UDim2.new(0, 339, 0, 10)
+		HubName.Font = Enum.Font.SourceSans
+		HubName.Text = author
+		HubName.TextColor3 = Color3.fromRGB(184, 21, 21)
+		HubName.TextSize = 14.000
+		HubName.TextXAlignment = Enum.TextXAlignment.Left
+
+		SelectTab.Name = "SelectTab"
+		SelectTab.Parent = TabSelectionFrame
+		SelectTab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		SelectTab.BackgroundTransparency = 1.000
+		SelectTab.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+		SelectTab.Size = UDim2.new(0, 342, 0, 18)
+		SelectTab.Font = Enum.Font.SourceSans
+		SelectTab.Text = ""
+		SelectTab.TextColor3 = Color3.fromRGB(0, 0, 0)
+		SelectTab.TextSize = 14.000
+
+		SelectTab.MouseButton1Click:Connect(function()
+			SettingsFrame.Visible = false
+            Main.Visible = false
+
+			for i,v in pairs(Tabs:GetChildren()) do
+				if v.Name ~= nameTab then
+					v.Visible = false
+				elseif v.Name == nameTab then
+					v.Visible = true
+				end
+			end
+		end)
+
+  
+
+
+		local vermlibbb = {}
+
+		function vermlibbb:CreateButton(name, callback)
+			name = name or "Button"
+			callback = callback or function() end
+
+			local ButtonFrame = Instance.new("Frame")
+			local Button = Instance.new("TextButton")
+			local UICorner = Instance.new("UICorner")
+			local ButtonIcon = Instance.new("ImageLabel")
+
+			ButtonFrame.Name = "ButtonFrame"
+			ButtonFrame.Parent = Tab
+			ButtonFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ButtonFrame.BackgroundTransparency = 1.000
+			ButtonFrame.Size = UDim2.new(1, 0, 0, 49)
+
+			Button.Name = name
+			Button.Parent = ButtonFrame
+			Button.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+			Button.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+			Button.Size = UDim2.new(0, 435, 0, 27)
+			Button.Font = Enum.Font.GothamSemibold
+			Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Button.TextSize = 14.000
+			Button.Text = name
+
+			Button.MouseButton1Click:Connect(callback)
+
+			UICorner.Parent = Button
+
+			ButtonIcon.Name = "ButtonIcon"
+			ButtonIcon.Parent = Button
+			ButtonIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ButtonIcon.BackgroundTransparency = 1.000
+			ButtonIcon.Position = UDim2.new(0.017699115, 0, 0.111111112, 0)
+			ButtonIcon.Size = UDim2.new(0, 21, 0, 21)
+			ButtonIcon.Image = "http://www.roblox.com/asset/?id=10414217689"
+		end
+
+		function vermlibbb:CreateToggle(name, callback)
+			name = name or "Toggle"
+			callback = callback or function() end
+
+			local ToggleFrame = Instance.new("Frame")
+			local Status = Instance.new("TextLabel")
+			local StatusIcon = Instance.new("ImageLabel")
+
+			local UICorner_2 = Instance.new("UICorner")
+			local Label = Instance.new("TextLabel")
+			local Toggle = Instance.new("TextButton")
+
+			ToggleFrame.Name = "ToggleFrame"
+			ToggleFrame.Parent = Tab
+			ToggleFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ToggleFrame.BackgroundTransparency = 1.000
+			ToggleFrame.Size = UDim2.new(1, 0, 0, 24)
+
+			Status.Name = "Status"
+			Status.Parent = ToggleFrame
+			Status.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Status.Position = UDim2.new(0.035911601, 0, 0.408163279, 0)
+			Status.Size = UDim2.new(0, 20, 0, 18)
+			Status.Font = Enum.Font.SourceSans
+			Status.Text = ""
+			Status.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Status.TextSize = 16.000
+			Status.BackgroundTransparency = 1
+
+			StatusIcon.Name = "Status Icon"
+			StatusIcon.Parent = ToggleFrame
+			StatusIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			StatusIcon.BackgroundTransparency = 1.000
+			StatusIcon.Position = UDim2.new(0.035911601, 0, 0.367346942, 0)			
+			StatusIcon.Size = UDim2.new(0, 21, 0, 21)
+			StatusIcon.Image = "http://www.roblox.com/asset/?id=12334640864"
+			
+
+			Label.Name = "Label"
+			Label.Parent = ToggleFrame
+			Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Label.BackgroundTransparency = 1.000
+			Label.Position = UDim2.new(0.110497236, 0, 0.265306115, 0)
+			Label.Size = UDim2.new(0, 312, 0, 31)
+			Label.Font = Enum.Font.Gotham
+			Label.Text = name
+			Label.TextColor3 = Color3.fromRGB(160, 160, 160)
+			Label.TextSize = 16.000
+			Label.TextWrapped = true
+			Label.TextXAlignment = Enum.TextXAlignment.Left
+
+			Toggle.Name = name
+			Toggle.Parent = ToggleFrame
+			Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Toggle.BackgroundTransparency = 1.000
+			Toggle.Position = UDim2.new(0.035911601, 0, 0.367346942, 0)
+			Toggle.Size = UDim2.new(0, 20, 0, 16)
+			Toggle.Font = Enum.Font.SourceSans
+			Toggle.Text = ""
+			Toggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+			Toggle.TextSize = 16.000
+
+			local actions = {}
+			local enabled = false
+
+			local function fire()
+				enabled = not enabled
+				if enabled == false then
+					StatusIcon.Image = "http://www.roblox.com/asset/?id=12334640864"
+				elseif enabled then
+					StatusIcon.Image = "http://www.roblox.com/asset/?id=7181750993"
+				end
+				Status.Text = enabled and utf8.char(10003) or ""
+				pcall(callback, enabled)
+			end
+
+			Toggle.MouseButton1Click:Connect(fire)
+		end
+
+		function vermlibbb:CreateBox(name, numberorstring, callback)
+			name = name or "Box"
+			callback = callback or function() end
+			numberorstring = numberorstring or nil
+
+			local BoxFrame = Instance.new("Frame")
+			local Button_2 = Instance.new("TextButton")
+			local UICorner_3 = Instance.new("UICorner")
+			local ButtonIcon_2 = Instance.new("ImageLabel")
+			local Box = Instance.new("TextBox")
+			local UICorner_4 = Instance.new("UICorner")
+
+			BoxFrame.Name = "BoxFrame"
+			BoxFrame.Parent = Tab
+			BoxFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			BoxFrame.BackgroundTransparency = 1.000
+			BoxFrame.Size = UDim2.new(1, 0, 0, 47)
+
+			Button_2.Name = name
+			Button_2.Parent = BoxFrame
+			Button_2.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+			Button_2.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+			Button_2.Size = UDim2.new(0, 220, 0, 27)
+			Button_2.Font = Enum.Font.GothamSemibold
+			Button_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Button_2.TextSize = 16.000
+			Button_2.Text = name
+
+			Button_2.MouseButton1Click:Connect(function()
+				if numberorstring == "number" then
+					callback(tonumber(Box.Text))
+				elseif numberorstring == "string" then
+					callback(tostring(Box.Text))
+				elseif numberorstring == nil then
+					callback(Box.Text)
+				end
+			end)
+
+			UICorner_3.Parent = Button_2
+
+			ButtonIcon_2.Name = "ButtonIcon"
+			ButtonIcon_2.Parent = Button_2
+			ButtonIcon_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ButtonIcon_2.BackgroundTransparency = 1.000
+			ButtonIcon_2.Position = UDim2.new(0.017699115, 0, 0.111111112, 0)
+			ButtonIcon_2.Size = UDim2.new(0, 21, 0, 21)
+			ButtonIcon_2.Image = "http://www.roblox.com/asset/?id=10414217689"
+
+			Box.Name = "Box"
+			Box.Parent = BoxFrame
+			Box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Box.Position = UDim2.new(0.522099435, 0, 0.265306115, 0)
+			Box.Size = UDim2.new(0, 202, 0, 26)
+			Box.Font = Enum.Font.Gotham
+			Box.Text = ""
+			Box.TextColor3 = Color3.fromRGB(0, 0, 0)
+			Box.TextSize = 14.000
+
+
+
+			UICorner_4.Parent = Box
+
+		end
+		function vermlibbb:CreateSlider(name, min, max, initialValue, callback)
+			name = name or "Slider"
+			min = min or 0
+			max = max or 100
+			initialValue = initialValue or min
+			callback = callback or function() end
+		
+			local SliderFrame = Instance.new("Frame")
+			local SliderButton = Instance.new("TextButton")
+			local SliderBack = Instance.new("Frame")
+			local UICornerBack = Instance.new("UICorner")
+			local UICornerButton = Instance.new("UICorner")
+			local SliderPart = Instance.new("Frame")
+			local UICornerPart = Instance.new("UICorner")
+			local SliderValue = Instance.new("TextLabel")
+		
+			-- Slider Frame Setup
+			SliderFrame.Name = "SliderFrame"
+			SliderFrame.Parent = Tab
+			SliderFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			SliderFrame.BackgroundTransparency = 1.000
+			SliderFrame.Size = UDim2.new(1, 0, 0, 47)
+		
+			-- Slider Button Setup
+			SliderButton.Name = name
+			SliderButton.Parent = SliderFrame
+			SliderButton.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+			SliderButton.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+			SliderButton.Size = UDim2.new(0, 220, 0, 27)
+			SliderButton.Font = Enum.Font.GothamSemibold
+			SliderButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+			SliderButton.TextSize = 16.000
+			SliderButton.Text = name
+			
+			-- Slider Background Setup
+			SliderBack.Name = "SliderBack"
+			SliderBack.Parent = SliderFrame
+			SliderBack.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+			SliderBack.BorderSizePixel = 0
+			SliderBack.Position = UDim2.new(0.035911601, 0, 0.5, -3)
+			SliderBack.Size = UDim2.new(0, 202, 0, 26)
+			SliderBack.Position = UDim2.new(0.522099435, 0, 0.265306115, 0)
+			UICornerBack.CornerRadius = UDim.new(0, 8)
+			UICornerBack.Parent = SliderBack
+
+			UICornerButton.CornerRadius = UDim.new(0, 8)
+			UICornerButton.Parent = SliderButton
+			-- Slider Part Setup
+			SliderPart.Name = "SliderPart"
+			SliderPart.Parent = SliderBack
+			SliderPart.BackgroundColor3 = Color3.fromRGB(153, 75, 252)
+			SliderPart.BorderSizePixel = 0
+			SliderPart.Size = UDim2.new((initialValue - min) / (max - min), 0, 1, 0)
+		
+			UICornerPart.CornerRadius = UDim.new(0, 8)
+			UICornerPart.Parent = SliderPart
+		
+			-- Slider Value Display Setup
+			SliderValue.Name = "SliderValue"
+			SliderValue.Parent = SliderFrame
+			SliderValue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			SliderValue.BackgroundTransparency = 1.000
+			SliderValue.Position = UDim2.new(0.93, 0, 0, 0)
+			SliderValue.Size = UDim2.new(0, 80, 0, 16)
+			SliderValue.Font = Enum.Font.Code
+			SliderValue.Text = tostring(initialValue)
+			SliderValue.TextColor3 = Color3.fromRGB(255, 255, 255)
+			SliderValue.TextSize = 14.000
+		
+			-- Initialize with the starting value
+			callback(initialValue)
+		
+			-- Function to Update Slider Value
+			local function updateSliderValue(input)
+				local position = math.clamp((input.Position.X - SliderBack.AbsolutePosition.X) / SliderBack.AbsoluteSize.X, 0, 1)
+				SliderPart.Size = UDim2.new(position, 0, 1, 0)
+				local value = math.floor(position * (max - min) + min)
+				SliderValue.Text = tostring(value)
+				SliderButton.Text = name .. ": " .. tostring(value) -- Update button text
+				callback(value)
+			end
+		
+			-- Input Handling
+			SliderBack.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					updateSliderValue(input)
+					local dragging = true
+				
+					local function onInputChanged(change)
+						if dragging and change.UserInputType == Enum.UserInputType.MouseMovement then
+							updateSliderValue(change)
+						end
+					end
+				
+					local function onInputEnded(change)
+						if change.UserInputType == Enum.UserInputType.MouseButton1 then
+							dragging = false
+						end
+					end
+				
+					game:GetService("UserInputService").InputChanged:Connect(onInputChanged)
+					game:GetService("UserInputService").InputEnded:Connect(onInputEnded)
+				end
+			end)
+		end
+		
+		function vermlibbb:CreateBox(name, numberorstring, callback)
+			name = name or "Box"
+			callback = callback or function() end
+			numberorstring = numberorstring or nil
+
+			local BoxFrame = Instance.new("Frame")
+			local Button_2 = Instance.new("TextButton")
+			local UICorner_3 = Instance.new("UICorner")
+			local ButtonIcon_2 = Instance.new("ImageLabel")
+			local Box = Instance.new("TextBox")
+			local UICorner_4 = Instance.new("UICorner")
+
+			BoxFrame.Name = "BoxFrame"
+			BoxFrame.Parent = Tab
+			BoxFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			BoxFrame.BackgroundTransparency = 1.000
+			BoxFrame.Size = UDim2.new(1, 0, 0, 47)
+
+			Button_2.Name = name
+			Button_2.Parent = BoxFrame
+			Button_2.BackgroundColor3 = Color3.fromRGB(134, 8, 207)
+			Button_2.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+			Button_2.Size = UDim2.new(0, 220, 0, 27)
+			Button_2.Font = Enum.Font.GothamSemibold
+			Button_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Button_2.TextSize = 16.000
+			Button_2.Text = name
+
+			Button_2.MouseButton1Click:Connect(function()
+				if numberorstring == "number" then
+					callback(tonumber(Box.Text))
+				elseif numberorstring == "string" then
+					callback(tostring(Box.Text))
+				elseif numberorstring == nil then
+					callback(Box.Text)
+				end
+			end)
+
+			UICorner_3.Parent = Button_2
+
+			ButtonIcon_2.Name = "ButtonIcon"
+			ButtonIcon_2.Parent = Button_2
+			ButtonIcon_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ButtonIcon_2.BackgroundTransparency = 1.000
+			ButtonIcon_2.Position = UDim2.new(0.017699115, 0, 0.111111112, 0)
+			ButtonIcon_2.Size = UDim2.new(0, 21, 0, 21)
+			ButtonIcon_2.Image = "http://www.roblox.com/asset/?id=10414217689"
+
+			Box.Name = "Box"
+			Box.Parent = BoxFrame
+			Box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Box.Position = UDim2.new(0.522099435, 0, 0.265306115, 0)
+			Box.Size = UDim2.new(0, 202, 0, 26)
+			Box.Font = Enum.Font.Gotham
+			Box.Text = ""
+			Box.TextColor3 = Color3.fromRGB(0, 0, 0)
+			Box.TextSize = 14.000
+
+
+
+			UICorner_4.Parent = Box
+
+		end
+
+		function vermlibbb:CreateDropdown2(name, list, callback)
+			name = name or "Dropdown"
+			list = list or {}
+			callback = callback or function() end
+		
+			local DropdownFrame = Instance.new("Frame")
+			local DropdownOption = Instance.new("TextLabel")
+			local ToggleDropdown = Instance.new("TextButton")
+			local ScrollingFrame = Instance.new("ScrollingFrame")
+			local DropdownContainer = Instance.new("Frame")
+			local UIGridLayout = Instance.new("UIGridLayout")
+		
+			DropdownFrame.Name = "DropdownFrame"
+			DropdownFrame.Parent = Tab
+			DropdownFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			DropdownFrame.BackgroundTransparency = 1.000
+			DropdownFrame.Size = UDim2.new(1, 0, 0, 49)	
+		
+			DropdownOption.Name = "DropdownOption"
+			DropdownOption.Parent = DropdownFrame
+			DropdownOption.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			DropdownOption.BackgroundTransparency = 1.000
+			DropdownOption.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+			DropdownOption.Size = UDim2.new(0, 337, 0, 27)
+			DropdownOption.Font = Enum.Font.GothamBold
+			DropdownOption.Text = name
+			DropdownOption.TextColor3 = Color3.fromRGB(255, 255, 255)
+			DropdownOption.TextSize = 14.000
+			DropdownOption.TextXAlignment = Enum.TextXAlignment.Left
+		
+			ToggleDropdown.Name = "ToggleDropdown"
+			ToggleDropdown.Parent = DropdownFrame
+			ToggleDropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			ToggleDropdown.BackgroundTransparency = 1.000
+			ToggleDropdown.Position = UDim2.new(0.911602199, 0, 0.387755096, 0)
+			ToggleDropdown.Size = UDim2.new(0, 17, 0, 12)
+			ToggleDropdown.Font = Enum.Font.SourceSans
+			ToggleDropdown.Text = "V"
+			ToggleDropdown.Rotation = 90
+			ToggleDropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+			ToggleDropdown.TextSize = 14.000
+		
+			ToggleDropdown.MouseButton1Click:Connect(function()
+				if ScrollingFrame.Visible == false then
+					ScrollingFrame.Visible = true
+					ToggleDropdown.Rotation = 0
+				elseif ScrollingFrame.Visible == true then
+					ScrollingFrame.Visible = false
+					ToggleDropdown.Rotation = 90
+				end
+			end)
+		
+			ScrollingFrame.Name = "ScrollingFrame"
+			ScrollingFrame.Parent = Tab -- Move ScrollingFrame to be a sibling of DropdownFrame
+			ScrollingFrame.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+			ScrollingFrame.BorderSizePixel = 0
+			ScrollingFrame.Position = UDim2.new(0.035911601, 0, 0, 0) -- Position it above DropdownFrame
+			ScrollingFrame.Size = UDim2.new(0, 450, 0, 250)
+			ScrollingFrame.Visible = false
+			ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+			ScrollingFrame.ScrollBarThickness = 9
+			ScrollingFrame.ClipsDescendants = true
+			
+			DropdownContainer.Name = "DropdownContainer"
+			DropdownContainer.Parent = ScrollingFrame
+			DropdownContainer.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+			DropdownContainer.BorderSizePixel = 0
+			DropdownContainer.ClipsDescendants = true
+			DropdownContainer.Size = UDim2.new(1, 0, 0, 0) -- Height will be adjusted dynamically
+		
+			UIGridLayout.Parent = DropdownContainer
+			UIGridLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIGridLayout.CellSize = UDim2.new(0, 100, 0, 30)
+			UIGridLayout.CellPadding = UDim2.new(0, 50, 0, 4)
+			local dropdownContainerSize = 0
+		
+			for i, v in next, list do
+				local Option = Instance.new("TextButton")
+		
+						Option.Name = v
+						Option.Parent = DropdownContainer
+						Option.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Option.BackgroundTransparency = 1.000
+						Option.Size = UDim2.new(0, 200, 0, 50)
+						Option.Font = Enum.Font.Gotham
+						Option.Text = v
+						Option.TextColor3 = Color3.fromRGB(255,  255, 255)
+						Option.TextSize = 14.000
+		
+				dropdownContainerSize = dropdownContainerSize + 50
+				DropdownContainer.Size = UDim2.new(1, 0, 0, dropdownContainerSize)
+				ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, dropdownContainerSize)
+		
+				Option.MouseButton1Click:Connect(function()
+					ScrollingFrame.Visible = false
+					ToggleDropdown.Rotation = 90
+								DropdownOption.Text = name .. ": " .. v
+					callback(v)
+				end)
+			end
+		end
+        function vermlibbb:CreateDropdown(name, list, callback)
+            name = name or "Dropdown"
+            list = list or {}
+            callback = callback or function() end
+        
+            local DropdownFrame = Instance.new("Frame")
+            local DropdownOption = Instance.new("TextLabel")
+            local ToggleDropdown = Instance.new("TextButton")
+            local ScrollingFrame = Instance.new("ScrollingFrame")
+            local DropdownContainer = Instance.new("Frame")
+            local UIGridLayout = Instance.new("UIGridLayout")
+            local SearchBar = Instance.new("TextBox")  -- Create Search Bar
+        
+            DropdownFrame.Name = "DropdownFrame"
+            DropdownFrame.Parent = Tab
+            DropdownFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DropdownFrame.BackgroundTransparency = 1.000
+            DropdownFrame.Size = UDim2.new(1, 0, 0, 49)	
+        
+            DropdownOption.Name = "DropdownOption"
+            DropdownOption.Parent = DropdownFrame
+            DropdownOption.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DropdownOption.BackgroundTransparency = 1.000
+            DropdownOption.Position = UDim2.new(0.035911601, 0, 0.244897962, 0)
+            DropdownOption.Size = UDim2.new(0, 337, 0, 27)
+            DropdownOption.Font = Enum.Font.GothamBold
+            DropdownOption.Text = name
+            DropdownOption.TextColor3 = Color3.fromRGB(255, 255, 255)
+            DropdownOption.TextSize = 14.000
+            DropdownOption.TextXAlignment = Enum.TextXAlignment.Left
+			
+            -- Create and position the Search Bar
+            SearchBar.Name = "SearchBar"
+            SearchBar.Parent = DropdownFrame
+            SearchBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SearchBar.Position = UDim2.new(0.800000072, -150, 0, 10)  -- Centered horizontally
+            SearchBar.Size = UDim2.new(0, 200, 0, 30)
+            SearchBar.PlaceholderText = "Search..."
+            SearchBar.Font = Enum.Font.Gotham
+            SearchBar.TextColor3 = Color3.fromRGB(153, 75, 252)
+            SearchBar.TextSize = 17
+            SearchBar.Transparency = 1
+            SearchBar.TextTransparency = 0     
+            SearchBar.Text = "Search..."
+            SearchBar.TextWrapped = true
+
+            ToggleDropdown.Name = "ToggleDropdown"
+            ToggleDropdown.Parent = DropdownFrame
+            ToggleDropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleDropdown.BackgroundTransparency = 1.000
+            ToggleDropdown.Position = UDim2.new(0.911602199, 0, 0.387755096, 0)
+            ToggleDropdown.Size = UDim2.new(0, 17, 0, 12)
+            ToggleDropdown.Font = Enum.Font.SourceSans
+            ToggleDropdown.Text = "V"
+            ToggleDropdown.Rotation = 90
+            ToggleDropdown.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleDropdown.TextSize = 14.000
+        
+            ToggleDropdown.MouseButton1Click:Connect(function()
+                if ScrollingFrame.Visible == false then
+                    ScrollingFrame.Visible = true
+                    ToggleDropdown.Rotation = 0
+                else
+                    ScrollingFrame.Visible = false
+                    ToggleDropdown.Rotation = 90
+                end
+            end)
+        
+            ScrollingFrame.Name = "ScrollingFrame"
+            ScrollingFrame.Parent = Tab -- Move ScrollingFrame to be a sibling of DropdownFrame
+            ScrollingFrame.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+            ScrollingFrame.BorderSizePixel = 0
+            ScrollingFrame.Position = UDim2.new(0.035911601, 0, 0, 0) -- Position it above DropdownFrame
+            ScrollingFrame.Size = UDim2.new(0, 450, 0, 250)
+            ScrollingFrame.Visible = false
+            ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+            ScrollingFrame.ScrollBarThickness = 9
+            ScrollingFrame.ClipsDescendants = true
+            
+            DropdownContainer.Name = "DropdownContainer"
+            DropdownContainer.Parent = ScrollingFrame
+            DropdownContainer.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+            DropdownContainer.BorderSizePixel = 0
+            DropdownContainer.ClipsDescendants = true
+            DropdownContainer.Size = UDim2.new(1, 0, 0, 0) -- Height will be adjusted dynamically
+        
+            UIGridLayout.Parent = DropdownContainer
+            UIGridLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            UIGridLayout.CellSize = UDim2.new(0, 100, 0, 30)
+            UIGridLayout.CellPadding = UDim2.new(0, 50, 0, 4)
+            local dropdownContainerSize = 0
+        
+            -- Function to filter options based on search input
+            local function updateDropdownOptions()
+                local searchText = SearchBar.Text:lower()
+                for _, option in ipairs(DropdownContainer:GetChildren()) do
+                    if option:IsA("TextButton") then
+                        option.Visible = option.Text:lower():find(searchText) ~= nil
+                    end
+                end
+            end
+        
+            -- Connect the search bar's text change event to the filtering function
+            SearchBar:GetPropertyChangedSignal("Text"):Connect(updateDropdownOptions)
+        
+            for i, v in next, list do
+                local Option = Instance.new("TextButton")
+        
+                Option.Name = v
+                Option.Parent = DropdownContainer
+                Option.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Option.BackgroundTransparency = 1.000
+                Option.Size = UDim2.new(0, 200, 0, 50)
+                Option.Font = Enum.Font.Gotham
+                Option.Text = v
+                Option.TextColor3 = Color3.fromRGB(255,  255, 255)
+                Option.TextSize = 14.000
+				Option.TextScaled = true
+
+                dropdownContainerSize = dropdownContainerSize + 50
+                DropdownContainer.Size = UDim2.new(1, 0, 0, dropdownContainerSize)
+                ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, dropdownContainerSize)
+        
+                Option.MouseButton1Click:Connect(function()
+                    DropdownOption.Text = name .. ": " .. v
+                    callback(v)
+                end)
+            end
+        
+	local vermlibbbb = {}
+
+	function vermlibbbb:Refresh(list2)
+		list2 = list2 or {}
+		dropdownContainerSize = 0 -- Reset size
+
+		for i, v in pairs(DropdownContainer:GetChildren()) do
+			if not v:IsA("UIGridLayout") then
+				v:Destroy()
+			end
+		end
+
+		for i, v in next, list2 do
+			local Option = Instance.new("TextButton")
+
+			Option.Name = v
+			Option.Parent = DropdownContainer
+			Option.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Option.BackgroundTransparency = 1.000
+			Option.Size = UDim2.new(0, 200, 0, 50)
+			Option.Font = Enum.Font.Gotham
+			Option.Text = v
+			Option.TextColor3 = Color3.fromRGB(255, 255, 255)
+			Option.TextSize = 14.000
+
+			dropdownContainerSize = dropdownContainerSize + 50
+			DropdownContainer.Size = UDim2.new(1, 0, 0, dropdownContainerSize)
+			ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, dropdownContainerSize)
+
+			Option.MouseButton1Click:Connect(function()
+				ScrollingFrame.Visible = false
+				ToggleDropdown.Rotation = 90
+				DropdownOption.Text = v
+				callback(v)
+			end)
+		end
+	end
+
+	return vermlibbbb
+
+		end
+
+		return vermlibbb
+
+	end
+
+	return vermlibb
+end
+function vermLib:CloseOnRightShift()
+    local UserInputService = game:GetService("UserInputService")
+    local isPressed = false
+
+    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if input.KeyCode == Enum.KeyCode.RightShift and not gameProcessedEvent then
+            if isPressed then
+                Hub.Enabled = not Hub.Enabled
+            else
+                isPressed = true
+            end
+        end
+    end)
+
+    UserInputService.InputEnded:Connect(function(input, gameProcessedEvent)
+        if input.KeyCode == Enum.KeyCode.RightShift and not gameProcessedEvent then
+            isPressed = false
+        end
+    end)
+end
+return vermLib
