@@ -12,17 +12,17 @@ if field then
         if humRootPart then
             -- Calculate the new position slightly in front of the player
             local direction = humRootPart.CFrame.LookVector
-            local distance = 3  -- Move the ball 3 units in front of the player
+            local distance = 15
             local newPosition = humRootPart.Position + (direction * distance)
             
             -- Teleport the ball using CFrame
             ball.CFrame = CFrame.new(newPosition)
         else
-            warn("HumanoidRootPart not found")
+            warn("character not found, if death, please reset.")
         end
     else
-        warn("Character or Ball not found")
+        warn("humanoidrootpart or ball not found")
     end
 else
-    warn("FootballField not found")
+    warn("footballfield not found")
 end
