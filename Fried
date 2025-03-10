@@ -1,0 +1,28 @@
+-- Script to teleport the ball when executed
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local field = game.Workspace:FindFirstChild("FootballField")
+
+if field then
+    local ball = field:FindFirstChild("SoccerBall")
+    
+    if character and ball then
+        local humRootPart = character:FindFirstChild("HumanoidRootPart")
+        
+        if humRootPart then
+            -- Calculate the new position slightly in front of the player
+            local direction = humRootPart.CFrame.LookVector
+            local distance = 3  -- Move the ball 3 units in front of the player
+            local newPosition = humRootPart.Position + (direction * distance)
+            
+            -- Teleport the ball using CFrame
+            ball.CFrame = CFrame.new(newPosition)
+        else
+            warn("HumanoidRootPart not found")
+        end
+    else
+        warn("Character or Ball not found")
+    end
+else
+    warn("FootballField not found")
+end
